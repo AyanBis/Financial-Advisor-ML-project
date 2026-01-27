@@ -1,145 +1,123 @@
-📊 Expense Category Forecasting – Monthly Prediction System
-📌 Project Overview
+# 📊 Expense Category Forecasting – Monthly Prediction System
 
-This project focuses on forecasting monthly expenses across different categories using historical transaction data.
-The notebook processes raw expense data, converts it into a time-series format, applies multiple forecasting techniques, and automatically selects the best-performing model for each category.
+## 📌 Overview
+This project implements a **monthly expense forecasting system** that predicts future spending for different expense categories using historical data.  
+The notebook processes raw transaction data, converts it into a time-series format, trains multiple models per category, selects the best one automatically, and exports the results in a frontend-ready JSON format.
 
-The final output is a JSON file that contains:
+---
 
-Predicted expenses for the next month (per category)
+## 📂 Project Structure
+.
+├── dataset.csv
+├── models/
+│ ├── <category>__linear.pkl
+│ ├── <category>__rf.pkl
+├── predictions_output.json
+├── expense_forecasting.ipynb
+└── README.md
 
-Historical monthly trend data
 
-Information about which model was selected for each category
 
-This structure is designed to be frontend-friendly, making it easy to visualize trends and predictions.
+---
 
-🗂 Dataset Description
+## 📊 Dataset Requirements
+The input dataset (`dataset.csv`) must contain the following columns:
 
-The input dataset (dataset.csv) is expected to contain:
+| Column Name | Description |
+|------------|-------------|
+| `month_year` | Month and year of the expense (e.g., `2024-06`) |
+| `category` | Expense category (Food, Rent, Travel, etc.) |
+| `amount` | Expense amount |
 
-month_year → Month of the transaction (e.g., 2024-06)
+---
 
-category → Expense category (e.g., Food, Rent, Travel)
+## 🔄 Data Processing
 
-amount → Expense value
+### 1. Monthly Aggregation
+- Expenses are grouped by `month_year` and `category`
+- Total monthly spending per category is calculated
+- Data is reshaped into a **pivot table**:
+  - Rows → Months
+  - Columns → Categories
+  - Values → Total expenses
 
-🔄 Data Processing Workflow
-1️⃣ Monthly Aggregation
+### 2. Time-Series Preparation
+- Each category is handled independently
+- Missing categories are filled with `0`
+- A time index (`t`) is added to represent sequential months
 
-Expenses are grouped by month and category
+---
 
-Total spending per category is calculated for each month
+## 🤖 Forecasting Methods
 
-Data is converted into a pivot table where:
+For every expense category, three prediction techniques are evaluated:
 
-Rows → Months
+### 🔹 Linear Regression
+- Models linear trends over time
+- Trained on historical monthly data
 
-Columns → Categories
+### 🔹 Random Forest Regressor
+- Captures non-linear spending patterns
+- Suitable for irregular or volatile expenses
 
-Values → Total expense amount
+### 🔹 Moving Average
+- Uses the average of the last `k` months
+- Acts as a fallback for small datasets
 
-This makes the data suitable for time-series modeling.
+---
 
-2️⃣ Time-Series Preparation
+## 🧠 Model Selection Strategy
+- If insufficient data is available, **Moving Average** is used
+- Otherwise:
+  - All three models generate predictions
+  - Each prediction is compared against the most recent actual value
+  - The model with the **lowest absolute error** is selected
 
-For each category:
+This allows **adaptive, per-category model selection** instead of a single global model.
 
-Missing categories are handled safely by filling values with 0
+---
 
-A time index t is created to represent sequential months
+## 💾 Model Saving
+- Selected models (Linear Regression or Random Forest) are saved using `joblib`
+- Models are stored in the `models/` directory
+- Moving Average does not require model persistence
 
-This allows models to learn temporal trends
+---
 
-🤖 Forecasting Models Used
+## 📤 Output
 
-For each expense category, the notebook evaluates three prediction approaches:
+### `predictions_output.json`
+The final output file contains:
+- **Predicted expense values** for each category
+- **Historical monthly trend data**
+- **Model metadata**, including:
+  - Chosen model type
+  - Saved model file path (if applicable)
 
-🔹 Linear Regression
+This output is optimized for **frontend dashboards and visualizations**.
 
-Captures linear trends over time
+---
 
-Trained using past months to predict the next month
-
-🔹 Random Forest Regressor
-
-Handles non-linear patterns
-
-More flexible for irregular spending behavior
-
-🔹 Moving Average
-
-Uses the average of the last k months
-
-Acts as a fallback when data is limited
-
-🧠 Model Selection Logic
-
-If a category has very limited data, Moving Average is used
-
-Otherwise:
-
-All three methods generate predictions
-
-Their errors are compared against the most recent actual value
-
-The model with the lowest absolute error is selected
-
-This ensures adaptive and data-driven model selection per category.
-
-💾 Model Persistence
-
-Trained models (Linear Regression or Random Forest) are saved using joblib
-
-Models are stored in the models/ directory
-
-Only the selected best model is saved
-
-📤 Final Output
-
-The notebook generates a single JSON file:
-
-predictions_output.json
-
-It contains:
-
-Predicted expense values for each category
-
-Historical monthly trend data for visualization
-
-Model metadata, including:
-
-Selected model type
-
-Saved model file (if applicable)
-
-This output is optimized for integration with dashboards or frontend applications.
-
-🛠 Technologies Used
-
-Python
-
-Pandas & NumPy (Data processing)
-
-Scikit-learn (Machine learning models)
-
-Joblib (Model saving)
-
-JSON (Data exchange format)
-
-✅ Key Highlights
-
-Handles multiple expense categories automatically
-
-Chooses the best model per category instead of a single global model
-
-Robust to missing or limited data
-
-Frontend-ready JSON output
-
-Clean and modular design
-
-📌 Conclusion
-
-This notebook provides a scalable and interpretable expense forecasting system that adapts to different spending behaviors across categories.
-It balances simplicity and performance by combining classical regression, ensemble learning, and statistical baselines.
+## 🛠 Technologies Used
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- Joblib
+- JSON
+
+---
+
+## ⭐ Key Features
+- Category-wise forecasting
+- Automatic model comparison and selection
+- Handles missing and limited data gracefully
+- Modular and scalable design
+- Frontend-ready output
+
+---
+
+## 📌 Conclusion
+This project provides a flexible and interpretable system for **monthly expense forecasting**.  
+By combining statistical baselines with machine learning models, it ensures robust predictions while remaining simple and extensible.
+
+---
