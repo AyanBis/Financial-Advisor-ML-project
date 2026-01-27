@@ -37,6 +37,46 @@ The project uses Natural Language Processing techniques to analyze transaction d
 
 ---
 
+## Expense Forecasting and Trend Analysis Module
+
+In addition to transaction categorization and historical analysis, the project includes a **monthly expense forecasting module** that predicts future spending trends across different expense categories.
+
+This module enhances the Financial Advisor system by enabling **proactive financial insights**, allowing users to anticipate upcoming expenses rather than only analyzing past behavior.
+
+### Forecasting Workflow
+
+1. Aggregate categorized transaction data on a **monthly basis** for each expense category.  
+2. Convert aggregated data into a **time-series format** suitable for modeling.  
+3. Prepare independent time series for each category, handling missing values safely.  
+4. Train multiple forecasting models per category:
+   - Linear Regression
+   - Random Forest Regressor
+   - Moving Average baseline  
+5. Compare predictions using recent historical values and select the **best-performing model per category**.  
+6. Save selected models for reuse and generate next-month expense predictions.  
+7. Export predictions, historical trends, and model metadata in a structured JSON format.
+
+### Forecasting Approach
+
+- **Linear Regression** captures steady and long-term spending trends.  
+- **Random Forest Regressor** models non-linear and irregular expense patterns.  
+- **Moving Average** is used when historical data is limited.
+
+By dynamically selecting the most suitable model for each category, the system ensures robust and adaptable predictions.
+
+### Output Integration
+
+The forecasting module produces a JSON output containing:
+- Category-wise next-month expense predictions  
+- Historical monthly trend data  
+- Selected model details for each category  
+
+This output can be directly integrated with frontend dashboards and visualization components of the Financial Advisor system.
+
+
+
+---
+
 ## Technologies Used
 
 Programming Language: Python  
@@ -50,15 +90,13 @@ Optional Component: Ollama for generating language model–based financial insig
 
 <pre>
 Financial-Advisor-ML-project/
-├── Predictions (Nirbhay)/
-│   └── Models
-│   └── Notebook
-│   └── Prediction
-│   └── Readme.md
-├── notebooks/
-│   └── finance_pipeline.ipynb
 ├── data/
 │   └── transactions_clean.csv
+├── Models/
+├── notebooks/
+│   └── finance_pipeline.ipynb
+│   └── prediction_notebook.ipynb
+├── Predictions/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
