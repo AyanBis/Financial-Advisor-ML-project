@@ -7,14 +7,22 @@ The notebook processes raw transaction data, converts it into a time-series form
 ---
 
 ## 📂 Project Structure
-.
-├── dataset.csv
-├── models/
-│ ├── <category>__linear.pkl
-│ ├── <category>__rf.pkl
-├── predictions_output.json
-├── expense_forecasting.ipynb
+
+<pre>
+Financial-Advisor-ML-project/
+├── Predictions (Nirbhay)/
+│   └── Models
+│   └── Notebook
+│   └── Prediction
+│   └── Readme.md
+├── notebooks/
+│   └── finance_pipeline.ipynb
+├── data/
+│   └── transactions_clean.csv
+├── requirements.txt
+├── .gitignore
 └── README.md
+</pre>
 
 
 

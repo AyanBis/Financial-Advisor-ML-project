@@ -50,6 +50,11 @@ Optional Component: Ollama for generating language model–based financial insig
 
 <pre>
 Financial-Advisor-ML-project/
+├── Predictions (Nirbhay)/
+│   └── Models
+│   └── Notebook
+│   └── Prediction
+│   └── Readme.md
 ├── notebooks/
 │   └── finance_pipeline.ipynb
 ├── data/
